@@ -7,7 +7,7 @@ mixer.init()
     # screen setup
 SCREEN_WIDTH, SCREEN_HEIGHT = 900, 600
 screen = py.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-py.display.set_caption('UNNAMED')
+py.display.set_caption('Dangan')
 
 font = py.font.SysFont("Arial", 28)
 
@@ -48,7 +48,7 @@ def draw_player():
     screen.blit(player_img, (player.x, player.y))
 
 def draw_player_bullets():
-    for _ in player_bullets:
+    for b in player_bullets:
         py.Rect(b[0], b[1], 6, 16)
         screen.blit(player_bullet_img, (b[0], b[1]))
 
@@ -101,7 +101,8 @@ while flag:
 
     for b in player_bullets:
         b[1] -= player_bullet_speed * dt
-    player_bullets = [b for b in player_bullets if b[1] > 0]
+        if b[1] < 0:
+            player_bullets.remove(b)
 
     draw_player_bullets()
     draw_player()
@@ -109,7 +110,7 @@ while flag:
     screen.blit(border_img, (0, 0)) # Keep this rendering last.
 
     # \/ debug \/
-    debug_text = font.render(f"debug:   x {player.x}   y {player.y}   |   {player_speed}", True, FONT_COLOR)
+    debug_text = font.render(f"debug:   x {player.x}   y {player.y}   |   {player_speed}, {len(player_bullets)}", True, FONT_COLOR)
     screen.blit(debug_text, (10, 10))
 
     debug_top = font.render(f"{player.top}", True, FONT_COLOR)
