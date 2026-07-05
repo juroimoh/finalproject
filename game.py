@@ -29,7 +29,7 @@ player_x = player.x
 player_y = player.y
 player_width = 14
 
-mixer.music.load("assets/Ready.mp3")
+mixer.music.load("assets/Skyrider.mp3")
 mixer.music.set_volume(0.6)
 mixer.music.play()
 
