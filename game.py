@@ -32,6 +32,8 @@ player_y = player.y
 player_width = 14
 
 player_bullets = []
+player_bulletsl = []
+player_bulletsr = []
 player_bullet_reload = 0.5
 player_bullet_width = 6
 player_bullet_height = 16
@@ -51,6 +53,12 @@ def draw_player():
 
 def draw_player_bullets():
     for b in player_bullets:
+        py.Rect(b[0], b[1], 6, 16)
+        screen.blit(player_bullet_img, (b[0], b[1]))
+    for b in player_bulletsl:
+        py.Rect(b[0], b[1], 6, 16)
+        screen.blit(player_bullet_img, (b[0], b[1]))
+    for b in player_bulletsr:
         py.Rect(b[0], b[1], 6, 16)
         screen.blit(player_bullet_img, (b[0], b[1]))
 
@@ -91,10 +99,12 @@ while flag:
     else:
         player_speed = 400
     if keys[py.K_SPACE] and player_bullet_reload <= 0:
-        player_bullet_reload = 0.25
+        player_bullet_reload = 0.15
         player_bullet_x = player.x + player_width / 2 - player_bullet_width / 2
         player_bullet_y = player.y - 5
         player_bullets.append([player_bullet_x, player_bullet_y])
+        player_bulletsl.append([player_bullet_x, player_bullet_y])
+        player_bulletsr.append([player_bullet_x, player_bullet_y])
 
     if player_bullet_reload > -1:
         player_bullet_reload -= 1 * dt
@@ -105,6 +115,16 @@ while flag:
         b[1] -= player_bullet_speed * dt
         if b[1] < 0:
             player_bullets.remove(b)
+    for b in player_bulletsl:
+        b[1] -= player_bullet_speed * dt
+        b[0] -= player_bullet_speed / 10 * dt
+        if b[1] < 0:
+            player_bulletsl.remove(b)
+    for b in player_bulletsr:
+        b[1] -= player_bullet_speed * dt
+        b[0] += player_bullet_speed / 10 * dt
+        if b[1] < 0:
+            player_bulletsr.remove(b)
 
     draw_player_bullets()
     draw_player()
