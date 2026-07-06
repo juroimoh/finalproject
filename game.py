@@ -16,6 +16,8 @@ BACKGROUND_COLOR = (16, 15, 22)
 FONT_COLOR = (214, 255, 255)
 
     # setup
+DEBUG = False
+
 clock = py.time.Clock()
 
 border_img = py.image.load("assets/gamebackground.png").convert_alpha()
@@ -37,7 +39,7 @@ player_bullet_speed = 550
 
 # mixer.music.load("assets/Ready.mp3")
 mixer.music.load("assets/Skyrider.mp3")
-mixer.music.set_volume(0.6)
+mixer.music.set_volume(0.2)
 mixer.music.play()
 
 previous_time = time.time()
@@ -89,7 +91,7 @@ while flag:
     else:
         player_speed = 400
     if keys[py.K_SPACE] and player_bullet_reload <= 0:
-        player_bullet_reload = 0.5
+        player_bullet_reload = 0.25
         player_bullet_x = player.x + player_width / 2 - player_bullet_width / 2
         player_bullet_y = player.y - 5
         player_bullets.append([player_bullet_x, player_bullet_y])
@@ -110,17 +112,18 @@ while flag:
     screen.blit(border_img, (0, 0)) # Keep this rendering last.
 
     # \/ debug \/
-    debug_text = font.render(f"debug:   x {player.x}   y {player.y}   |   {player_speed}, {len(player_bullets)}", True, FONT_COLOR)
-    screen.blit(debug_text, (10, 10))
+    if DEBUG:
+        debug_text = font.render(f"debug:   x {player.x}   y {player.y}   |   {player_speed}, {len(player_bullets)}", True, FONT_COLOR)
+        screen.blit(debug_text, (10, 10))
 
-    debug_top = font.render(f"{player.top}", True, FONT_COLOR)
-    screen.blit(debug_top, (660, 20))
-    debug_right = font.render(f"{player.right}", True, FONT_COLOR)
-    screen.blit(debug_right, (700, 60))
-    debug_left = font.render(f"{player.left}", True, FONT_COLOR)
-    screen.blit(debug_left, (620, 60))
-    debug_bottom = font.render(f"{player.bottom}", True, FONT_COLOR)
-    screen.blit(debug_bottom, (660, 100))
+        debug_top = font.render(f"{player.top}", True, FONT_COLOR)
+        screen.blit(debug_top, (660, 20))
+        debug_right = font.render(f"{player.right}", True, FONT_COLOR)
+        screen.blit(debug_right, (700, 60))
+        debug_left = font.render(f"{player.left}", True, FONT_COLOR)
+        screen.blit(debug_left, (620, 60))
+        debug_bottom = font.render(f"{player.bottom}", True, FONT_COLOR)
+        screen.blit(debug_bottom, (660, 100))
     # /\ end debug /\
 
     py.display.flip()
